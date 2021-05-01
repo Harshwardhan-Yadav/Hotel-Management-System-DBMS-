@@ -60,7 +60,9 @@ class CreateTable:
                         SNO TEXT PRIMARY KEY,
                         STYPE TEXT NOT NULL,
                         PRICE INTEGER NOT NULL,
-                        SSTATUS TEXT NOT NULL
+                        SSTATUS TEXT NOT NULL,
+                        CONSTRAIT CH1 CHECK(STYPE IN ['gym','restaurant']),
+                        CONSTRAIT CH2 CHECK(SSTATUS IN ['available','not-available'])
                     );""")
         conn.commit()
         conn.close()
@@ -89,6 +91,8 @@ class CreateTable:
                         HOTELID TEXT,
                         RTYPE TEXT NOT NULL,
                         RSTATUS TEXT NOT NULL,
+                        CONSTRAIT CH1 CHECK(RTYPE IN ['ac','non-ac']),
+                        CONSTRAIT CH2 CHECK(RSTATUS IN ['available','not-available']),
                         CONSTRAINT FK_HOTELID FOREIGN KEY(HOTELID) REFERENCES hotel(HOTELID) ON DELETE CASCADE,
                         CONSTRAINT PK_rooms PRIMARY KEY(RID,HOTELID)
                     );""")
@@ -132,6 +136,7 @@ class CreateTable:
                         CID TEXT,
                         AMOUNT INTEGER NOT NULL,
                         MODE TEXT NOT NULL,
+                        CONSTRAIT CH CHECK(MODE IN ['cash','card']),
                         CONSTRAINT FK_CID FOREIGN KEY(CID) REFERENCES customer(CID) ON DELETE CASCADE,
                         CONSTRAINT PK_bill PRIMARY KEY(BILLID,CID)
                     );""")

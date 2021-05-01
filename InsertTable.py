@@ -1,4 +1,5 @@
 import sqlite3
+
 class InsertTable:
     def insertEmployee(self,eid,efirstname,elastname,eno,salary,hotelid,workshotelid):
         conn = sqlite3.connect('Hotel_Management.db')

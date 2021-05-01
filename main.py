@@ -5,6 +5,7 @@ from InsertTable import InsertTable
 from ViewTable import ViewTable
 from UpdateTable import UpdateTable
 from DeleteTable import DeleteTable
+from tkinter import *
 
 def initialize():
     ob = CreateTable()
@@ -21,294 +22,390 @@ def initialize():
 
 def insert():
     ob = InsertTable()
-    choice=int(input("Enter your choice: 1) Employee 2) Hotel 3) Owner 4) Customer 5) Services 6) Rooms"))
-    if(choice==1):
-        eid=input("Enter EID:")
-        efirstname=input("Enter EFIRSTNAME:")
-        elastname=input("Enter ELASTNAME:")
-        eno=input("Enter ENO:")
-        salary=input("Enter SALARY:")
-        hotelid=input("Enter HOTELID:")
-        workshotelid=input("Enter WORKSHOTELID:")
-        ob.insertEmployee(eid,efirstname,elastname,eno,salary,hotelid,workshotelid)
-        print("Data Entered Successfully")
-    elif(choice==2):
-        hotelid=(input("Enter HOTELID:"))
-        location=(input("Enter LOCATION:"))
-        hname=(input("Enter HNAME:"))
-        oid=(input("Enter OID:"))
-        ob.insertHotel(hotelid,location,hname,oid)
-        print("Data Entered Successfully")
-    elif(choice==3):
-        oid=input("Enter Owner ID:")
-        mobileno=input("Enter Mobile Number:")
-        emailid=input("Enter EMAIL-ID:")
-        fname=input("Enter First Name:")
-        lname=input("Enter Last Name:")
-        ob.insertOwner(oid,mobileno,emailid,fname,lname)
-        print("Data Entered Successfully")
-    elif(choice==4):
-        cid=input("Enter customer ID: ")
-        mobileno=input("Enter Mobile No.: ")
-        emailid=input("Enter e-mail:")
-        fname=input("Enter First Name: ")
-        lname=input("Enter Last Name: ")
-        hotelid=input("Enter Hotel-ID: ")
-        billid=input("Enter Bill-ID: ")
-        amount=input("Enter amount :")
-        while True:
-            mode=input("Enter Mode:")
-            if mode.lower() in ['cash','credit']:
-                break
-            print("Mode of payment must be cash or card")
-        ob.insertCustomer(cid,mobileno,emailid,fname,lname)
-        ob.insertBill(billid,cid,amount,mode)
-        ob.insertBooking(hotelid,cid)
-        print("Data Entered Successfully")
-    elif(choice==5):
-        sno=input("Enter SNO:")
-        price=input("Enter Price:")
-        while True:
-            stype=input("ENTER SType:")
-            if stype.lower() in ['gym','restaurant']:
-                break
-            print("Service type must be gym or restaurant")
-        while True:
-            sstatus=input("Enter Sstatus:")
-            if sstatus.lower() in ['available','not available']:
-                break
-            print("Service status must be available or not available")
-        hotelid=input("Enter HotelID:")
-        ob.insertServices(sno,stype,price,sstatus)
-        ob.insertProvides(hotelid,sno)
-        print("Data Entered Successfully")
-    elif(choice==6):
-        rid=input("ENTER Room-ID.:")
-        hotelid=input("ENTER Hotel-ID:")
-        while True:
-            rtype=input("ENTER Room Type:")
-            if rtype.lower() in ['ac','non-ac']:
-                break
-            print("Room type must be ac or non-ac")
-        while True:
-            rstatus=input("ENTER Room Status:")
-            if rstatus.lower() in ['available','not available']:
-                break
-            print("Room status must be available or not available")
-        ob.insertRooms(rid,hotelid,rtype,rstatus)
-        print("Data Entered Successfully")
-    else:
-        print("VALID CHOICE NOT ENTERED!")
+    def emp():
+        w = Tk()
+        w.title('Insert')
+        w.iconbitmap(r'favicon.ico')
+        Label(w,text='Enter EID:').pack()
+        eid=Entry(w)
+        eid.pack()
+        Label(w,text='Enter EFIRSTNAME:').pack()
+        EFIRSTNAME=Entry(w)
+        EFIRSTNAME.pack()
+        Label(w,text='Enter ELASTNAME:').pack()
+        ELASTNAME=Entry(w)
+        ELASTNAME.pack()
+        Label(w,text='Enter ENO:').pack()
+        ENO=Entry(w)
+        ENO.pack()
+        Label(w,text='Enter SALARY:').pack()
+        SALARY=Entry(w)
+        SALARY.pack()
+        Label(w,text='Enter HOTELID:').pack()
+        HOTELID=Entry(w)
+        HOTELID.pack()
+        Label(w,text='Enter WORKSHOTELID:').pack()
+        WORKSHOTELID=Entry(w)
+        WORKSHOTELID.pack()
+        Button(w,text='Insert',command=lambda:ob.insertEmployee(eid.get(),EFIRSTNAME.get(),ELASTNAME.get(),ENO.get(),SALARY.get(),HOTELID.get(),WORKSHOTELID.get())).pack()
+        w.mainloop()
+    def hotel():
+        w = Tk()
+        w.title('Insert')
+        w.iconbitmap(r'favicon.ico')
+        Label(w,text='Enter HOTELID:').pack()
+        HOTELID=Entry(w)
+        HOTELID.pack()
+        Label(w,text='Enter LOCATION:').pack()
+        LOCATION=Entry(w)
+        LOCATION.pack()
+        Label(w,text='Enter HNAME:').pack()
+        HNAME=Entry(w)
+        HNAME.pack()
+        Label(w,text='Enter OID:').pack()
+        OID=Entry(w)
+        OID.pack()
+        Button(w,text='Insert',command=lambda:ob.insertHotel(HOTELID.get(),LOCATION.get(),HNAME.get(),OID.get())).pack()
+        w.mainloop()
+    def owner():
+        w = Tk()
+        w.title('Insert')
+        w.iconbitmap(r'favicon.ico')
+        Label(w,text='Enter OwnerID:').pack()
+        OwnerID=Entry(w)
+        OwnerID.pack()
+        Label(w,text='Enter mobileno:').pack()
+        mobileno=Entry(w)
+        mobileno.pack()
+        Label(w,text='Enter emailid:').pack()
+        emailid=Entry(w)
+        emailid.pack()
+        Label(w,text='Enter First Name:').pack()
+        FirstName=Entry(w)
+        FirstName.pack()
+        Label(w,text='Enter Last Name:').pack()
+        LastName=Entry(w)
+        LastName.pack()
+        Button(w,text='Insert',command=lambda:ob.insertOwner(OwnerID.get(),mobileno.get(),emailid.get(),FirstName.get(),LastName.get())).pack()
+        w.mainloop()
+    def customer():
+        def call(CID,mobileno,emailid,FirstName,LastName,BillID,amount,Mode,HotelID):
+            ob.insertCustomer(CID.get(),mobileno.get(),emailid.get(),FirstName.get(),LastName.get())
+            ob.insertBill(BillID.get(),CID.get(),amount.get(),Mode.get())
+            ob.insertBooking(HotelID.get(),CID.get())
+        w = Tk()
+        w.iconbitmap(r'favicon.ico')
+        w.title('Insert')
+        Label(w,text='Enter CID:').pack()
+        CID=Entry(w)
+        CID.pack()
+        Label(w,text='Enter mobileno:').pack()
+        mobileno=Entry(w)
+        mobileno.pack()
+        Label(w,text='Enter emailid:').pack()
+        emailid=Entry(w)
+        emailid.pack()
+        Label(w,text='Enter First Name:').pack()
+        FirstName=Entry(w)
+        FirstName.pack()
+        Label(w,text='Enter Last Name:').pack()
+        LastName=Entry(w)
+        LastName.pack()
+        Label(w,text='Enter HOTELID:').pack()
+        HOTELID=Entry(w)
+        HOTELID.pack()
+        Label(w,text='Enter BillID:').pack()
+        BillID=Entry(w)
+        BillID.pack()
+        Label(w,text='Enter amount:').pack()
+        amount=Entry(w)
+        amount.pack()
+        Label(w,text='Enter Mode:').pack()
+        Mode=Entry(w)
+        Mode.pack()
+        Button(w,text='Insert',command=lambda:call(CID,mobileno,emailid,FirstName,LastName,BillID,amount,Mode,HOTELID)).pack()
+        w.mainloop()
+    def services():
+        def call(SNO,SType,Price,Sstatus,HOTELID):
+            ob.insertServices(SNO.get(),SType.get(),Price.get(),Sstatus.get())
+            ob.insertProvides(HOTELID.get(),SNO.get())
+        w = Tk()
+        w.iconbitmap(r'favicon.ico')
+        w.title('Insert')
+        Label(w,text='Enter SNO:').pack()
+        SNO=Entry(w)
+        SNO.pack()
+        Label(w,text='Enter Price:').pack()
+        Price=Entry(w)
+        Price.pack()
+        Label(w,text='Enter SType:').pack()
+        SType=Entry(w)
+        SType.pack()
+        Label(w,text='Enter Sstatus:').pack()
+        Sstatus=Entry(w)
+        Sstatus.pack()
+        Label(w,text='Enter HOTELID:').pack()
+        HOTELID=Entry(w)
+        HOTELID.pack()
+        Button(w,text='Insert',command=lambda:call(SNO,SType,Price,Sstatus,HOTELID)).pack()
+        w.mainloop()
+    def rooms():
+        w = Tk()
+        w.title('Insert')
+        w.iconbitmap(r'favicon.ico')
+        Label(w,text='Enter RID:').pack()
+        RID=Entry(w)
+        RID.pack()
+        Label(w,text='Enter RType:').pack()
+        RType=Entry(w)
+        RType.pack()
+        Label(w,text='Enter Rstatus:').pack()
+        Rstatus=Entry(w)
+        Rstatus.pack()
+        Label(w,text='Enter HOTELID:').pack()
+        HOTELID=Entry(w)
+        HOTELID.pack()
+        Button(w,text='Insert',command=lambda:ob.insertRooms(RID.get(),HOTELID.get(),RType.get(),Rstatus.get())).pack()
+        w.mainloop()
+    
+    view_window = Tk()
+    view_window.iconbitmap(r'favicon.ico')
+    view_window.title('Insert')
+    view_window.geometry('100x250')
+    view_window.configure(bg='cyan')
+    Button(view_window,text = 'Employee',command =emp).grid(row=0,column=0)
+    Button(view_window,text = 'Hotel',command =hotel).grid(row=1,column=0)
+    Button(view_window,text = 'Owner',command =owner).grid(row=2,column=0)
+    Button(view_window,text = 'Customer',command =customer).grid(row=3,column=0)
+    Button(view_window,text = 'Services',command =services).grid(row=4,column=0)
+    Button(view_window,text = 'Rooms',command =rooms).grid(row=5,column=0)
+    view_window.mainloop()
 
 def view(mode):     # 1-admin 2-owner 3-employee 4-customer
     ob = ViewTable()
     if(mode==1):
-        choice=int(input("Enter your choice: 1) Employee 2) Hotel 3) Owner 4) Customer 5) Services 6) Rooms 7) Provides 8) Booking 9) Bill"))
-        if choice==1: 
-            ob.viewEmployee(mode)
-        elif choice==2:
-            ob.viewHotel()
-        elif choice==3:
-            ob.viewOwner()
-        elif choice==4:
-            ob.viewCustomer(mode)
-        elif choice==5:
-            ob.viewServices()
-        elif choice==6:
-            ob.viewRooms()
-        elif choice==7:
-            ob.viewProvides()
-        elif choice==8:
-            ob.viewBooking(mode)
-        elif choice==9:
-            ob.viewBill(mode)
-        else:
-            print("Invalid choice.")
+        view_window = Tk()
+        view_window.iconbitmap(r'favicon.ico')
+        view_window.title('View')
+        view_window.geometry('100x250')
+        view_window.configure(bg='cyan')
+        Button(view_window,text = 'Employee',command = lambda : ob.viewEmployee(mode)).grid(row=0,column=0)
+        Button(view_window,text = 'Hotel',command = lambda : ob.viewHotel()).grid(row=1,column=0)
+        Button(view_window,text = 'Owner',command = lambda : ob.viewOwner()).grid(row=2,column=0)
+        Button(view_window,text = 'Customer',command = lambda : ob.viewCustomer(mode)).grid(row=3,column=0)
+        Button(view_window,text = 'Services',command = lambda : ob.viewServices()).grid(row=4,column=0)
+        Button(view_window,text = 'Rooms',command = lambda : ob.viewRooms()).grid(row=5,column=0)
+        Button(view_window,text = 'Provides',command = lambda : ob.viewProvides()).grid(row=6,column=0)
+        Button(view_window,text = 'Booking',command = lambda : ob.viewBooking(mode)).grid(row=7,column=0)
+        Button(view_window,text = 'Bill',command = lambda : ob.viewBill(mode)).grid(row=8,column=0)
+        view_window.mainloop()
     elif(mode==2):
-        choice=int(input("Enter your choice: 1) Employee 2) Hotel 3) Owner 4) Customer 5) Services 6) Rooms 7) Provides 8) Booking 9) Bill"))
-        if choice==1: 
-            ob.viewEmployee(mode)
-        elif choice==2:
-            ob.viewHotel()
-        elif choice==3:
-            ob.viewOwner()
-        elif choice==4:
-            ob.viewCustomer(mode)
-        elif choice==5:
-            ob.viewServices()
-        elif choice==6:
-            ob.viewRooms()
-        elif choice==7:
-            ob.viewProvides()
-        elif choice==8:
-            ob.viewBooking(mode)
-        elif choice==9:
-            ob.viewBill(mode)
-        else:
-            print("Invalid choice.")
+        view_window = Tk()
+        view_window.iconbitmap(r'favicon.ico')
+        view_window.title('View')
+        view_window.geometry('100x250')
+        view_window.configure(bg='cyan')
+        Button(view_window,text = 'Employee',command = lambda : ob.viewEmployee(mode)).grid(row=0,column=0)
+        Button(view_window,text = 'Hotel',command = lambda : ob.viewHotel()).grid(row=1,column=0)
+        Button(view_window,text = 'Owner',command = lambda : ob.viewOwner()).grid(row=2,column=0)
+        Button(view_window,text = 'Customer',command = lambda : ob.viewCustomer(mode)).grid(row=3,column=0)
+        Button(view_window,text = 'Services',command = lambda : ob.viewServices()).grid(row=4,column=0)
+        Button(view_window,text = 'Rooms',command = lambda : ob.viewRooms()).grid(row=5,column=0)
+        Button(view_window,text = 'Provides',command = lambda : ob.viewProvides()).grid(row=6,column=0)
+        Button(view_window,text = 'Booking',command = lambda : ob.viewBooking(mode)).grid(row=7,column=0)
+        Button(view_window,text = 'Bill',command = lambda : ob.viewBill(mode)).grid(row=8,column=0)
+        view_window.mainloop()
     elif(mode==3):
-        choice=int(input("Enter your choice: 1) Employee 2) Hotel 3) Owner 4) Services 5) Rooms 6) Provides"))
-        if choice==1: 
-            ob.viewEmployee(mode)
-        elif choice==2:
-            ob.viewHotel()
-        elif choice==3:
-            ob.viewOwner()
-        elif choice==4:
-            ob.viewServices()
-        elif choice==5:
-            ob.viewRooms()
-        elif choice==6:
-            ob.viewProvides()
-        else:
-            print("Invalid choice.")
+        view_window = Tk()
+        view_window.geometry('100x250')
+        view_window.iconbitmap(r'favicon.ico')
+        view_window.title('View')
+        view_window.configure(bg='cyan')
+        Button(view_window,text = 'Employee',command = lambda : ob.viewEmployee(mode)).grid(row=0,column=0)
+        Button(view_window,text = 'Hotel',command = lambda : ob.viewHotel()).grid(row=1,column=0)
+        Button(view_window,text = 'Owner',command = lambda : ob.viewOwner()).grid(row=2,column=0)
+        Button(view_window,text = 'Services',command = lambda : ob.viewServices()).grid(row=3,column=0)
+        Button(view_window,text = 'Rooms',command = lambda : ob.viewRooms()).grid(row=4,column=0)
+        Button(view_window,text = 'Provides',command = lambda : ob.viewProvides()).grid(row=5,column=0)
+        view_window.mainloop()
     else:
-        choice=int(input("Enter your choice: 1) Hotel 2) Customer 3) Services 4) Rooms 5) Provides 6) Booking 7) Bill"))
-        if choice==1:
-            ob.viewHotel()
-        elif choice==2:
-            ob.viewCustomer(mode)
-        elif choice==3:
-            ob.viewServices()
-        elif choice==4:
-            ob.viewRooms()
-        elif choice==5:
-            ob.viewProvides()
-        elif choice==6:
-            ob.viewBooking(mode)
-        elif choice==7:
-            ob.viewBill(mode)
-        else:
-            print("Invalid choice.")
+        view_window = Tk()
+        view_window.geometry('100x250')
+        view_window.iconbitmap(r'favicon.ico')
+        view_window.title('View')
+        view_window.configure(bg='cyan')
+        Button(view_window,text = 'Hotel',command = lambda : ob.viewHotel()).grid(row=0,column=0)
+        Button(view_window,text = 'Customer',command = lambda : ob.viewCustomer(mode)).grid(row=1,column=0)
+        Button(view_window,text = 'Services',command = lambda : ob.viewServices()).grid(row=2,column=0)
+        Button(view_window,text = 'Rooms',command = lambda : ob.viewRooms()).grid(row=3,column=0)
+        Button(view_window,text = 'Provides',command = lambda : ob.viewProvides()).grid(row=4,column=0)
+        Button(view_window,text = 'Booking',command = lambda : ob.viewBooking(mode)).grid(row=5,column=0)
+        Button(view_window,text = 'Bill',command = lambda : ob.viewBill(mode)).grid(row=6,column=0)
+        view_window.mainloop()
 
 def updation():
     ob = UpdateTable()
-    choice=int(input("Enter Choice: 1) Employee 2) Owner 3) Rooms 4) Services"))
-    if choice==1:
-        ob.updateEmployee()
-    elif choice==2:
-        ob.updateOwner()
-    elif choice==3:
-        ob.updateRooms()
-    elif choice==4:
-        ob.updateServices()
-    else:
-        print("Invalid choice.")
+    view_window = Tk()
+    view_window.iconbitmap(r'favicon.ico')
+    view_window.title('Update')
+    view_window.geometry('100x200')
+    view_window.configure(bg='cyan')
+    Button(view_window,text = 'Employee',command = lambda : ob.updateEmployee()).grid(row=0,column=0)
+    Button(view_window,text = 'Owner',command = lambda : ob.updateOwner()).grid(row=1,column=0)
+    Button(view_window,text = 'Rooms',command = lambda : ob.updateRooms()).grid(row=2,column=0)
+    Button(view_window,text = 'Services',command = lambda : ob.updateServices()).grid(row=3,column=0)
+    view_window.mainloop()
 
 def deletion(mode):
     ob = DeleteTable()
     if mode==1:
-        choice=int(input("Enter your choice: 1)Employee 2) Customer 3) Owner 4) Rooms 5) Services 6) Hotel 7) Provides 8) Booking 9) Bill"))
-        if choice==1:
-            ob.deleteEmployee(1)
-        elif choice==2:
-            ob.deleteCustomer()
-        elif choice==3:
-            ob.deleteOwner()
-        elif choice==4:
-            ob.deleteRooms(1)
-        elif choice==5:
-            ob.deleteServices(1)
-        elif choice==6:
-            ob.deleteHotel()
-        elif choice==7:
-            ob.deleteProvides()
-        elif choice==8:
-            ob.deleteBooking()
-        elif choice==9:
-            ob.deleteBill()
-        else:
-            print("Invalid Choice")
+        view_window = Tk()
+        view_window.iconbitmap(r'favicon.ico')
+        view_window.title('Delete')
+        view_window.geometry('100x250')
+        view_window.configure(bg='cyan')
+        Button(view_window,text = 'Employee',command = lambda : ob.deleteEmployee(mode)).grid(row=0,column=0)
+        Button(view_window,text = 'Hotel',command = lambda : ob.deleteHotel()).grid(row=1,column=0)
+        Button(view_window,text = 'Owner',command = lambda : ob.deleteOwner()).grid(row=2,column=0)
+        Button(view_window,text = 'Customer',command = lambda : ob.deleteCustomer()).grid(row=3,column=0)
+        Button(view_window,text = 'Services',command = lambda : ob.deleteServices(mode)).grid(row=4,column=0)
+        Button(view_window,text = 'Rooms',command = lambda : ob.deleteRooms(mode)).grid(row=5,column=0)
+        Button(view_window,text = 'Provides',command = lambda : ob.deleteProvides()).grid(row=6,column=0)
+        Button(view_window,text = 'Booking',command = lambda : ob.deleteBooking()).grid(row=7,column=0)
+        Button(view_window,text = 'Bill',command = lambda : ob.deleteBill()).grid(row=8,column=0)
+        view_window.mainloop()
     else:
-        choice=int(input("Enter your choice: 1)Employee 2) Rooms 3) Services"))
-        if choice==1:
-            ob.deleteEmployee(2)
-        elif choice==2:
-            ob.deleteRooms(2)
-        elif choice==3:
-            ob.deleteServices(2)
-        else:
-            print("Invalid Choice")
+        view_window = Tk()
+        view_window.iconbitmap(r'favicon.ico')
+        view_window.title('Delete')
+        view_window.geometry('100x250')
+        view_window.configure(bg='cyan')
+        Button(view_window,text = 'Employee',command = lambda : ob.deleteEmployee(mode)).grid(row=0,column=0)
+        Button(view_window,text = 'Rooms',command = lambda : ob.deleteRooms(mode)).grid(row=1,column=0)
+        Button(view_window,text = 'Services',command = lambda : ob.deleteServices(mode)).grid(row=2,column=0)
+        view_window.mainloop()
 
-initialize()
-MODE=0
-while True:
-    choice=int(input("Enter choice: 1) SignUp 2) Login"))
-    if choice==1:
-        try:
-            usr=input("Enter USERNAME:")
-            pwd=input("Enter PASSWORD:")
-            mode=int(input("Enter MODE: 1)ADMIN 2)OWNER 3)EMPLOYEE 4)CUSTOMER: "))
-            conn = sqlite3.connect('Hotel_Management.db')
-            conn.execute("PRAGMA foreign_keys = 1")
-            c = conn.cursor()
-            c.execute("INSERT INTO login VALUES(?,?,?);",(usr,pwd,mode))
-            conn.commit()
-            conn.close()
-        except:
-            print("Username not available or mode entered is wrong.")
-    elif choice==2:
-        loginstatus = False
-        usr=input("Enter USERNAME:")
-        pwd=input("Enter PASSWORD:")
+def signup_entry(username,password,mode,signup_window):
+    try:
         conn = sqlite3.connect('Hotel_Management.db')
         conn.execute("PRAGMA foreign_keys = 1")
         c = conn.cursor()
-        c.execute("SELECT * FROM login WHERE USERNAME=(?) AND PASSWORD=(?);",(usr,pwd))
+        c.execute("INSERT INTO login VALUES(?,?,?);",(username.get(),password.get(),mode.get()))
+        signup_window.destroy()
+        conn.commit()
+        conn.close() 
+    except:
+        Label(signup_window,text="Username not available or mode entered is wrong.",height=2).place(x=300,y=600)
+
+def signup():
+        signup_window = Tk()
+        signup_window.title('Signup')
+        signup_window.iconbitmap(r'favicon.ico')
+        signup_window.geometry('800x700')
+        signup_window.configure(bg='cyan')
+        Label(signup_window,text="Username",height=2,width=10).place(x=300,y=200)
+        username = Entry(signup_window)
+        username.place(x = 300, y = 250)
+        Label(signup_window,text="Password",height=2,width=10).place(x=300,y=300) 
+        password = Entry(signup_window)
+        password.place(x = 300, y = 350)
+        Label(signup_window,text="Mode",height=2,width=10).place(x=300,y=400)
+        mode = Entry(signup_window)
+        mode.place(x = 300, y = 450) 
+        enter = Button(signup_window, text = "Enter",command=lambda: signup_entry(username,password,mode,signup_window),height=2,width=10).place(x = 300, y = 550)
+        signup_window.mainloop() 
+
+def login_entry(username,password,login_window):
+        global loginstatus
+        global MODE
+        global main_window
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        c.execute("SELECT * FROM login WHERE USERNAME=(?) AND PASSWORD=(?);",(username.get(),password.get()))
         row = c.fetchall()
         if(len(row)!=0):
+            login_window.destroy()
+            main_window.destroy()
             loginstatus=True
             MODE= int(row[0][2])
         else:
-            print('login unsuccessful.')
+            Label(login_window,text="Username or Password incorrect!!",height=2).place(x=300,y=550)
         conn.commit()
         conn.close()
-        if(loginstatus):
-            break
-    else:
-        print("Valid choice not entered.")
-while True:
+
+def login():
+        login_window = Tk()
+        login_window.title('Login')
+        login_window.iconbitmap(r'favicon.ico')
+        login_window.geometry('800x700')
+        login_window.configure(bg='cyan')
+        Label(login_window,text="Username",height=2,width=10).place(x=300,y=200)
+        username = Entry(login_window)
+        username.place(x = 300, y = 250) 
+        Label(login_window,text="Password",height=2,width=10).place(x=300,y=300) 
+        password = Entry(login_window)
+        password.place(x = 300, y = 350)
+        enter = Button(login_window, text = "Enter",command=lambda: login_entry(username,password,login_window),height=2,width=10).place(x = 300, y = 450)
+        login_window.mainloop()
+
+def Exit(window):
+    global loginstatus
+    loginstatus = False
+    window.destroy()
+
+initialize()
+loginstatus=False
+MODE=0
+main_window = Tk()
+main_window.title('Authenticate')
+main_window.iconbitmap(r'favicon.ico')
+main_window.geometry('800x700')
+main_window.configure(bg='cyan')
+signup = Button(main_window, text = "SignUp",command=signup,height=2,width=30).place(x = 300, y = 250)  
+login = Button(main_window, text = "login",command=login,height=2,width=30).place(x = 300, y = 450)
+main_window.mainloop()
+
+while loginstatus:
     if(MODE==1):
-        c1=int(input("Enter choice: 1) Insert 2) Delete 3) Update 4) View 5) Exit"))
-        if(c1==1):
-            insert()
-        elif(c1==2):
-            deletion(MODE)
-        elif(c1==3):
-            updation()
-        elif(c1==4):
-            view(MODE)
-        elif(c1==5):
-            break
-        else:
-            print("Enter valid choice.")
+        admin_window = Tk()
+        admin_window.geometry('800x700')
+        admin_window.title('Admin mode')
+        admin_window.iconbitmap(r'favicon.ico')
+        admin_window.configure(bg='cyan')
+        i = Button(admin_window, text = "Insert",command=insert,height=2,width=30).place(x = 300, y = 150)  
+        d = Button(admin_window, text = "Delete",command=lambda:deletion(MODE),height=2,width=30).place(x = 300, y = 250)
+        u = Button(admin_window, text = "Update",command=updation,height=2,width=30).place(x = 300, y = 350)
+        v = Button(admin_window,text = "View",command=lambda : view(MODE),height=2,width=30).place(x = 300, y = 450)
+        e = Button(admin_window,text = "Exit",command=lambda : Exit(admin_window),height=2,width=30).place(x = 300, y = 550)
+        admin_window.mainloop()
     elif(MODE==2):
-        c1=int(input("Enter choice: 1) Insert 2) Delete 3) Update 4) View 5) Exit"))
-        if(c1==1):
-            insert()
-        elif(c1==2):
-            deletion(MODE)
-        elif(c1==3):
-            updation()
-        elif(c1==4):
-            view(MODE)
-        elif(c1==5):
-            break
-        else:
-            print("Enter valid choice.")
+        owner_window = Tk()
+        owner_window.title('Owner mode')
+        owner_window.iconbitmap(r'favicon.ico')
+        owner_window.geometry('800x700')
+        owner_window.configure(bg='cyan')
+        i = Button(owner_window, text = "Insert",command=insert,height=2,width=30).place(x = 300, y = 150)  
+        d = Button(owner_window, text = "Delete",command=lambda:deletion(MODE),height=2,width=30).place(x = 300, y = 250)
+        u = Button(owner_window, text = "Update",command=updation,height=2,width=30).place(x = 300, y = 350)
+        v = Button(owner_window,text = "View",command=lambda : view(MODE),height=2,width=30).place(x = 300, y = 450)
+        e = Button(owner_window,text = "Exit",command=lambda : Exit(owner_window),height=2,width=30).place(x = 300, y = 550)
+        owner_window.mainloop()
     elif(MODE==3):
-        c1=int(input("Enter choice: 1) View 2) Exit"))
-        if(c1==1):
-            view(MODE)
-        elif(c1==2):
-            break
-        else:
-            print("Enter valid choice.")
+        user_window = Tk()
+        user_window.title('Employee mode')
+        user_window.iconbitmap(r'favicon.ico')
+        user_window.geometry('800x700')
+        user_window.configure(bg='cyan')
+        v = Button(user_window, text = "View",command=lambda : view(MODE),height=2,width=30).place(x = 300, y = 150)  
+        e = Button(user_window,text = "Exit",command=lambda : Exit(user_window),height=2,width=30).place(x = 300, y = 550)
+        user_window.mainloop()
     else:
-        c1=int(input("Enter choice: 1) View 2) Exit"))
-        if(c1==1):
-            view(MODE)
-        elif(c1==2):
-            break
-        else:
-            print("Enter valid choice.")
+        customer_window = Tk()
+        customer_window.title('Customer mode')
+        customer_window.iconbitmap(r'favicon.ico')
+        customer_window.geometry('800x700')
+        customer_window.configure(bg='cyan')
+        v = Button(customer_window, text = "View",command=lambda : view(MODE),height=2,width=30).place(x = 300, y = 150)  
+        e = Button(customer_window,text = "Exit",command=lambda : Exit(customer_window),height=2,width=30).place(x = 300, y = 550)
+        customer_window.mainloop()
