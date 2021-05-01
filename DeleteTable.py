@@ -1,0 +1,117 @@
+import sqlite3
+class DeleteTable:
+    def deleteEmployee(self,mode):
+        if mode==1:
+            conn = sqlite3.connect('Hotel_Management.db')
+            conn.execute("PRAGMA foreign_keys = 1")
+            c = conn.cursor()
+            eid=input("Enter EID:")
+            c.execute("DELETE FROM employee WHERE EID=(?)",(eid,))
+            conn.commit()
+            conn.close()
+        else:
+            conn = sqlite3.connect('Hotel_Management.db')
+            conn.execute("PRAGMA foreign_keys = 1")
+            c = conn.cursor()
+            eid=input("Enter EID:")
+            oid=input("Enter OID:")
+            hotelid=input("Enter HotelID:")
+            c.execute("""DELETE FROM employee WHERE EID=(?) AND
+                        (HOTELID=(?) OR WORKSHOTELID=(?)) AND
+                        (?) IN (SELECT HOTELID FROM hotel WHERE OID=(?));""",(eid,hotelid,hotelid,hotelid,oid))
+            conn.commit()
+            conn.close()
+    def deleteHotel(self):
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        hotelid=input("Enter HOTELID:")
+        c.execute("DELETE FROM hotel WHERE HOTELID=(?)",(hotelid,))
+        conn.commit()
+        conn.close()
+    def deleteOwner(self):
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        oid=input("Enter OID:")
+        c.execute("DELETE FROM owner WHERE OID=(?)",(oid,))
+        conn.commit()
+        conn.close()
+    def deleteCustomer(self):
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        cid=input("Enter CID:")
+        c.execute("DELETE FROM customer WHERE CID=(?)",(cid,))
+        conn.commit()
+        conn.close()
+    def deleteBooking(self):
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        hotelid=input("Enter HOTELID:")
+        cid=input("Enter CID:")
+        c.execute("DELETE FROM booking WHERE CID=(?) AND HOTELID=(?)",(cid,hotelid))
+        conn.commit()
+        conn.close()
+    def deleteBill(self):
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        billid=input("Enter BILLID:")
+        cid=input("Enter CID:")
+        c.execute("DELETE FROM bill WHERE CID=(?) AND BILLID=(?)",(cid,billid))
+        conn.commit()
+        conn.close()
+    def deleteServices(self,mode):
+        if mode==1:
+            conn = sqlite3.connect('Hotel_Management.db')
+            conn.execute("PRAGMA foreign_keys = 1")
+            c = conn.cursor()
+            sno=input("Enter SNO:")
+            c.execute("DELETE FROM services WHERE SNO=(?)",(sno,))
+            conn.commit()
+            conn.close()
+        else:
+            conn = sqlite3.connect('Hotel_Management.db')
+            conn.execute("PRAGMA foreign_keys = 1")
+            c = conn.cursor()
+            sno=input("Enter SNO:")
+            oid=input("Enter OID:")
+            hotelid=input("Enter HotelID:")
+            c.execute("""DELETE FROM services WHERE SNO=(?) AND SNO IN (SELECT SNO FROM provides WHERE HOTELID=(?))
+                        AND (?) IN (SELECT HOTELID FROM hotel WHERE OID=(?));""",(sno,hotelid,hotelid,oid))
+            conn.commit()
+            conn.close()
+    def deleteProvides(self):
+        conn = sqlite3.connect('Hotel_Management.db')
+        conn.execute("PRAGMA foreign_keys = 1")
+        c = conn.cursor()
+        hotelid=input("Enter HOTELID:")
+        sno=input("Enter SNO:")
+        c.execute("DELETE FROM provides WHERE SNO=(?) AND HOTELID=(?)",(sno,hotelid))
+        conn.commit()
+        conn.close()
+    def deleteRooms(self,mode):
+        if mode==1:
+            conn = sqlite3.connect('Hotel_Management.db')
+            conn.execute("PRAGMA foreign_keys = 1")
+            c = conn.cursor()
+            hotelid=input("Enter HOTELID:")
+            rid=input("Enter RID:")
+            c.execute("DELETE FROM rooms WHERE RID=(?) AND HOTELID=(?)",(rid,hotelid))
+            conn.commit()
+            conn.close()
+        else:
+            conn = sqlite3.connect('Hotel_Management.db')
+            conn.execute("PRAGMA foreign_keys = 1")
+            c = conn.cursor()
+            rid=input("Enter RID:")
+            oid=input("Enter OID:")
+            hotelid=input("Enter HotelID:")
+            c.execute("""DELETE FROM rooms WHERE RID=(?) AND
+                        HOTELID=(?) AND
+                        (?) IN (SELECT HOTELID FROM hotel WHERE OID=(?));""",(rid,hotelid,hotelid,oid))
+            conn.commit()
+            conn.close()
+        
